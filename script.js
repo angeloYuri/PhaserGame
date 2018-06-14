@@ -15,7 +15,7 @@ var bullets;
 var veggies;
 var skill;
 var cursors;
-var qntAlvos = 20;
+var qntAlvos = 100;
 var contador = 0;
 var bool = true;
 var contadorT = 0;
@@ -68,13 +68,13 @@ function criarJogo(){
   veggies.enableBody = true;
   veggies.physicsBodyType = Phaser.Physics.ARCADE;
   for(var i = 0; i < qntPiercing; i++){
-    var d = skill.create(game.world.randomX, Math.random() * 500, 'skill', game.rnd.integerInRange(0, 36));
+    var d = skill.create(game.world.randomX, Math.random() * -500, 'skill', game.rnd.integerInRange(0, 36));
     d.name = 'skillPiercing' + i;
     d.body.imovable = true;
   }
   for (var i = 0; i < qntAlvos; i++)
   {
-      var c = veggies.create(game.world.randomX, Math.random() * 500, 'veggies', game.rnd.integerInRange(0, 36));
+      var c = veggies.create(game.world.randomX, Math.random() * -500, 'veggies', game.rnd.integerInRange(0, 36));
       c.name = 'veg' + i;
       c.body.immovable = true;
   }
@@ -85,6 +85,7 @@ function update() {
     //  As we don't need to exchange any velocities or motion we can the 'overlap' check instead of 'collide'
     game.physics.arcade.overlap(bullets, veggies, collisionHandler, null, this);
     game.physics.arcade.overlap(bullets, skill, collisionHandler2, null, this);
+    game.physics.arcade.overlap(sprite, veggies, collisionHandler3, null, this);
     skill.setAll('y', 1, true, true, 1);
     veggies.setAll('y', 1, true, true, 1);
     sprite.body.velocity.x = 0;
@@ -155,12 +156,21 @@ function collisionHandler (bullet, veg) {
 }
 
 function collisionHandler2 (bullet, skill) {
-    contadorT = 6;
+    contadorT = 10;
     bullet.kill();
     skill.kill();
     bool = false;
     acertos++;
     attPlacar();
+}
+
+function collisionHandler3 (sprite, veggiess) {
+  alert("Você Perdeu! Clique em ok para começar novamente.")
+  contador = 0;
+  veggies.destroy();
+  skill.destroy();
+  criarJogo();
+  bool = true;
 }
 
 function attPlacar(){
