@@ -136,13 +136,15 @@ function resetBullet (bullet) {
 
 }
 
-function resetGame(veggies){
-  if(veggies["_bounds"].y >= 600){
+function resetGame(veggiess){
+  if(veggiess["_bounds"].y >= 600){
     alert("Você Perdeu! Clique em ok para começar novamente.")
     contador = 0;
     veggies.destroy();
+    sprite.destroy();
     skill.destroy();
-    criarJogo();
+    bullets.destroy();
+    create();
     bool = true;
   }
 }
@@ -161,8 +163,10 @@ function collisionHandler (bullet, veg) {
     contador++;
     if(contador == qntAlvos){
       alert("Você venceu! Clique em ok para começar novamente.")
+      bullets.destroy();
+      sprite.destroy();
       contador = 0;
-      criarJogo();
+      create();
       bool = true;
     }
 
@@ -180,9 +184,11 @@ function collisionHandler2 (bullet, skill) {
 function collisionHandler3 (sprite, veggiess) {
   alert("Você Perdeu! Clique em ok para começar novamente.")
   contador = 0;
+  bullets.destroy();
+  sprite.destroy();
   veggies.destroy();
   skill.destroy();
-  criarJogo();
+  create();
   bool = true;
 }
 
