@@ -77,6 +77,8 @@ function criarJogo(){
       var c = veggies.create(game.world.randomX, Math.random() * -500, 'veggies', game.rnd.integerInRange(0, 36));
       c.name = 'veg' + i;
       c.body.immovable = true;
+      c.checkWorldBounds = true;
+      c.events.onOutOfBounds.add(resetGame, this);
   }
 }
 
@@ -132,6 +134,17 @@ function resetBullet (bullet) {
 
     bullet.kill();
 
+}
+
+function resetGame(veggies){
+  if(veggies["_bounds"].y >= 600){
+    alert("Você Perdeu! Clique em ok para começar novamente.")
+    contador = 0;
+    veggies.destroy();
+    skill.destroy();
+    criarJogo();
+    bool = true;
+  }
 }
 
 //  Called if the bullet hits one of the veg sprites
